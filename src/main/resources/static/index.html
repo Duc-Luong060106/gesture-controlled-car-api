@@ -114,7 +114,7 @@
         else distElement.style.color = "black";
 
         // Kích hoạt SOS nếu có cờ từ xe gửi lên
-        if (data.issos && !isSosTriggered) { // Chú ý: Backend trả về 'issos' (thường viết thường)
+        if (data.isSOS && !isSosTriggered) { // Chú ý: Backend trả về 'issos' (thường viết thường)
             isSosTriggered = true;
             document.getElementById("sosAlert").classList.remove("d-none");
             document.getElementById("sosAlert").classList.add("sos-active");
