@@ -129,7 +129,7 @@
     }
 
     setInterval(() => {
-        fetch('http://localhost:8080/api/car/status')
+        fetch('https://gesture-controlled-car-api.onrender.com/api/car/status')
             .then(response => {
                 if (!response.ok) throw new Error("Mất mạng");
                 return response.json();
