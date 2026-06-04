@@ -12,7 +12,7 @@
         .card { border-radius: 15px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .icon-box { font-size: 2.5rem; color: #0d6efd; }
 
-        // Hiệu ứng cho cảnh báo
+        /* Hiệu ứng cho cảnh báo */
         @keyframes blink-red {
             0% { background-color: #ffcccc; transform: scale(1); }
             50% { background-color: #dc3545; color: white; transform: scale(1.02); }
@@ -83,7 +83,6 @@
 </div>
 
 <script>
-
     let isSosTriggered = false;
 
     // Hàm cập nhật trạng thái kết nối trên UI
@@ -93,7 +92,6 @@
             statusBadge.className = "badge bg-success fs-6 px-3 py-2";
             statusBadge.innerHTML = '<i class="fa-solid fa-wifi me-1"></i> Đang kết nối';
         } else {
-            // Khi mất mạng sẽ đưa các thông số về mặc định
             statusBadge.className = "badge bg-secondary fs-6 px-3 py-2";
             statusBadge.innerHTML = '<i class="fa-solid fa-wifi-slash me-1"></i> Chưa kết nối';
             document.getElementById("valDistance").innerText = "0 cm";
@@ -113,8 +111,8 @@
         if(data.distance <= 15 && data.distance > 0) distElement.style.color = "red";
         else distElement.style.color = "black";
 
-        // Kích hoạt SOS nếu có cờ từ xe gửi lên
-        if (data.isSOS && !isSosTriggered) { // Chú ý: Backend trả về 'issos' (thường viết thường)
+        // TỐI ƯU 1: Bọc lót mọi trường hợp viết hoa/thường của biến SOS
+        if ((data.isSOS === true || data.issos === true) && !isSosTriggered) {
             isSosTriggered = true;
             document.getElementById("sosAlert").classList.remove("d-none");
             document.getElementById("sosAlert").classList.add("sos-active");
@@ -128,6 +126,7 @@
         document.getElementById("sosAlert").classList.remove("sos-active");
     }
 
+    // TỐI ƯU 2: Giảm thời gian chờ xuống 400ms để Web chớp tín hiệu tức thời
     setInterval(() => {
         fetch('https://gesture-controlled-car-api.onrender.com/api/car/status')
             .then(response => {
@@ -135,13 +134,13 @@
                 return response.json();
             })
             .then(data => {
-                setConnectionStatus(true); // Có mạng -> Đổi màu xanh
-                updateDashboard(data);     // Đổ dữ liệu thật lên giao diện
+                setConnectionStatus(true);
+                updateDashboard(data);
             })
             .catch(error => {
-                setConnectionStatus(false); // Lỗi kết nối -> Quay về màu xám và số 0
+                setConnectionStatus(false);
             });
-    }, 1000);
+    }, 400);
 </script>
 
 </body>
